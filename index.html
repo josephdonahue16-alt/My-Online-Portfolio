@@ -1,30 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coming Soon</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: white;
-      color: black;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      text-align: center;
-    }
-    .container { padding: 20px; }
-    h1 { font-size: 48px; font-weight: bold; margin-bottom: 20px; }
-    img { max-width: 300px; width: 100%; height: auto; border-radius: 10px; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Coming Soon</h1>
-    <img src="joey.png" alt="Joey the cat">
-  </div>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Learn about Joseph Donahue, an Extended Reality student at Husson University."
+    >
+    <title>Joseph Donahue | Personal Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="javascript/index.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-content">
+        <a class="site-name" href="#top">Joseph Donahue</a>
+      </div>
+    </header>
+
+    <main class="container" id="top">
+      <h1>Joseph Donahue</h1>
+      <div class="tab-list" role="tablist" aria-label="Portfolio sections">
+        <button id="tab-about" class="tab-button" type="button" role="tab" aria-controls="panel-about" aria-selected="true">About Me</button>
+        <button id="tab-education" class="tab-button" type="button" role="tab" aria-controls="panel-education" aria-selected="false" tabindex="-1">School Experience</button>
+        <button id="tab-experience" class="tab-button" type="button" role="tab" aria-controls="panel-experience" aria-selected="false" tabindex="-1">Work Experience</button>
+        <button id="tab-contact" class="tab-button" type="button" role="tab" aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact</button>
+      </div>
+
+      <section class="tab-panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0">
+        <h2>About Me</h2>
+        <p>
+          My name is Joseph Donahue. I’m an Extended Reality student interested in
+          virtual reality, augmented reality, and software development.
+        </p>
+        <p>
+          I’m interested in learning how immersive technology can be used for
+          practical, real-world applications.
+        </p>
+      </section>
+
+      <section class="tab-panel" id="panel-education" role="tabpanel" aria-labelledby="tab-education" tabindex="0" hidden>
+        <h2>School Experience</h2>
+        <h3>Husson University</h3>
+        <p>Extended Reality student</p>
+        <p class="placeholder">Add your program details, dates, and relevant coursework.</p>
+      </section>
+
+      <section class="tab-panel" id="panel-experience" role="tabpanel" aria-labelledby="tab-experience" tabindex="0" hidden>
+        <h2>Work Experience</h2>
+        <p class="placeholder">
+          Add your work experience here, including job titles, employers, dates,
+          and responsibilities. If you don’t have work experience to list yet,
+          you can leave this section as is or remove it.
+        </p>
+      </section>
+
+      <section class="tab-panel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="0" hidden>
+        <h2>Contact</h2>
+        <p>Use the form below to get in touch.</p>
+        <form action="mailto:YOUR_EMAIL@example.com" method="post" enctype="text/plain">
+          <label for="name">Name</label>
+          <input id="name" name="name" type="text" autocomplete="name" required>
+
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required>
+
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+
+          <button type="submit">Send message</button>
+        </form>
+        <p class="form-note">Before publishing, replace YOUR_EMAIL@example.com in the form with your email address.</p>
+      </section>
+    </main>
+
+    <footer class="container">
+      <p>© <span id="year">2026</span> Joseph Donahue</p>
+    </footer>
+  </body>
 </html>
