@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Learn about Joseph Donahue, an Extended Reality student at Husson University."
+      content="Personal portfolio for Joseph Donahue, an Extended Reality student at Husson University."
     >
     <title>Joseph Donahue | Personal Portfolio</title>
     <link rel="stylesheet" href="css/style.css">
@@ -24,6 +24,7 @@
         <button id="tab-about" class="tab-button" type="button" role="tab" aria-controls="panel-about" aria-selected="true">About Me</button>
         <button id="tab-education" class="tab-button" type="button" role="tab" aria-controls="panel-education" aria-selected="false" tabindex="-1">School Experience</button>
         <button id="tab-experience" class="tab-button" type="button" role="tab" aria-controls="panel-experience" aria-selected="false" tabindex="-1">Work Experience</button>
+        <button id="tab-files" class="tab-button" type="button" role="tab" aria-controls="panel-files" aria-selected="false" tabindex="-1">Files</button>
         <button id="tab-contact" class="tab-button" type="button" role="tab" aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact</button>
       </div>
 
@@ -55,10 +56,23 @@
         </p>
       </section>
 
+      <section class="tab-panel" id="panel-files" role="tabpanel" aria-labelledby="tab-files" tabindex="0" hidden>
+        <h2>Files</h2>
+        <p>Documents and project files.</p>
+        <!-- To add a file: put it in the "files" folder, then add an entry to the FILES list in javascript/index.js -->
+        <ul class="file-list" id="file-list"></ul>
+        <p class="empty-state" id="files-empty">No files have been added yet. Check back soon.</p>
+      </section>
+
       <section class="tab-panel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="0" hidden>
         <h2>Contact</h2>
         <p>Use the form below to get in touch.</p>
-        <form action="mailto:YOUR_EMAIL@example.com" method="post" enctype="text/plain">
+        <form id="contact-form" action="https://formsubmit.co/donahuej1@mail.husson.edu" method="POST">
+          <input type="hidden" name="_subject" value="New message from josephdonahue.net">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="text" name="_honey" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+
           <label for="name">Name</label>
           <input id="name" name="name" type="text" autocomplete="name" required>
 
@@ -70,7 +84,7 @@
 
           <button type="submit">Send message</button>
         </form>
-        <p class="form-note">Before publishing, replace YOUR_EMAIL@example.com in the form with your email address.</p>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
       </section>
     </main>
 
