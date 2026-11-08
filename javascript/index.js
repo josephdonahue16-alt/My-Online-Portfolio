@@ -130,3 +130,27 @@ contactForm.addEventListener("submit", async (event) => {
     submitButton.textContent = "Send message";
   }
 });
+
+// Video: click the cover (or play button) to start, then use the normal controls.
+for (const player of document.querySelectorAll(".video-player")) {
+  const video = player.querySelector("video");
+  const playButton = player.querySelector(".video-play");
+
+  const start = () => {
+    video.controls = true;
+    player.classList.add("is-playing");
+    video.play();
+  };
+
+  playButton.addEventListener("click", start);
+  video.addEventListener("click", () => {
+    if (!video.controls) start();
+  });
+}
+
+// Pause any playing video when switching tabs.
+for (const tab of document.querySelectorAll('[role="tab"]')) {
+  tab.addEventListener("click", () => {
+    for (const video of document.querySelectorAll("video")) video.pause();
+  });
+}

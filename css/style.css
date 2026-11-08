@@ -457,3 +457,51 @@ button:disabled {
     max-width: 200px;
   }
 }
+
+/* Video */
+.video-player {
+  position: relative;
+  margin-top: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #000;
+}
+
+.video-player video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  cursor: pointer;
+}
+
+.video-player.is-playing video {
+  cursor: auto;
+}
+
+.video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  margin: 0;
+  padding: 0 0 0 4px;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(79, 140, 255, 0.92);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.video-play:hover {
+  background: var(--accent-hover);
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.video-player.is-playing .video-play {
+  display: none;
+}

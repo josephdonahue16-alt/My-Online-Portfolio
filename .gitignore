@@ -147,3 +147,9 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# macOS
+.DS_Store
+
+# Original full-size video (compressed copy lives in files/)
+/independent.mp4
