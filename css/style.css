@@ -358,3 +358,102 @@ button:disabled {
   opacity: 0.6;
   cursor: wait;
 }
+
+/* About */
+.about {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.about-photo {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  object-position: center 25%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* School */
+.entry {
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.entry-subtitle {
+  color: var(--text-muted);
+}
+
+.subsection-title {
+  margin-top: 24px;
+}
+
+.class-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.class-card {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+}
+
+.class-name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.class-description {
+  margin: 4px 0 0;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Per-tab files */
+.tab-files {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+#panel-resume .tab-files {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.tab-files-title {
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tab-files .file-list,
+.tab-files .empty-state {
+  margin-top: 12px;
+}
+
+.tab-files .file-list:empty {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .about {
+    grid-template-columns: 1fr;
+  }
+
+  .about-photo {
+    max-width: 200px;
+  }
+}

@@ -1,43 +1,51 @@
-// Files shown on the "Files" tab.
-// To add a file: put it in the "files" folder, then add an entry below, e.g.
-//   { name: "Project Charter", file: "files/project-charter.pdf", description: "CP 02 project charter" },
-const FILES = [
-];
+// Files shown at the bottom of each tab.
+// To add a file: put it in the "files" folder, then add an entry to the
+// matching tab's list below, e.g.
+//   resume: [
+//     { name: "Resume", file: "files/resume.pdf", description: "Updated November 2026" },
+//   ],
+const FILES = {
+  about: [],
+  education: [],
+  experience: [],
+  resume: [],
+};
 
-const fileList = document.getElementById("file-list");
-const filesEmpty = document.getElementById("files-empty");
+for (const container of document.querySelectorAll(".tab-files")) {
+  const sectionFiles = FILES[container.dataset.section] || [];
+  const fileList = container.querySelector(".file-list");
+  container.querySelector(".empty-state").hidden = sectionFiles.length > 0;
 
-for (const { name, file, description } of FILES) {
-  const item = document.createElement("li");
-  item.className = "file-item";
+  for (const { name, file, description } of sectionFiles) {
+    const item = document.createElement("li");
+    item.className = "file-item";
 
-  const info = document.createElement("div");
-  info.className = "file-info";
+    const info = document.createElement("div");
+    info.className = "file-info";
 
-  const title = document.createElement("p");
-  title.className = "file-name";
-  title.textContent = name;
-  info.append(title);
+    const title = document.createElement("p");
+    title.className = "file-name";
+    title.textContent = name;
+    info.append(title);
 
-  if (description) {
-    const desc = document.createElement("p");
-    desc.className = "file-description";
-    desc.textContent = description;
-    info.append(desc);
+    if (description) {
+      const desc = document.createElement("p");
+      desc.className = "file-description";
+      desc.textContent = description;
+      info.append(desc);
+    }
+
+    const link = document.createElement("a");
+    link.className = "file-link";
+    link.href = file;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Open";
+
+    item.append(info, link);
+    fileList.append(item);
   }
-
-  const link = document.createElement("a");
-  link.className = "file-link";
-  link.href = file;
-  link.target = "_blank";
-  link.rel = "noopener";
-  link.textContent = "Open";
-
-  item.append(info, link);
-  fileList.append(item);
 }
-
-filesEmpty.hidden = FILES.length > 0;
 
 const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
 const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));

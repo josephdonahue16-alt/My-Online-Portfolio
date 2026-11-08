@@ -24,27 +24,65 @@
         <button id="tab-about" class="tab-button" type="button" role="tab" aria-controls="panel-about" aria-selected="true">About Me</button>
         <button id="tab-education" class="tab-button" type="button" role="tab" aria-controls="panel-education" aria-selected="false" tabindex="-1">School Experience</button>
         <button id="tab-experience" class="tab-button" type="button" role="tab" aria-controls="panel-experience" aria-selected="false" tabindex="-1">Work Experience</button>
-        <button id="tab-files" class="tab-button" type="button" role="tab" aria-controls="panel-files" aria-selected="false" tabindex="-1">Files</button>
+        <button id="tab-resume" class="tab-button" type="button" role="tab" aria-controls="panel-resume" aria-selected="false" tabindex="-1">Resume</button>
         <button id="tab-contact" class="tab-button" type="button" role="tab" aria-controls="panel-contact" aria-selected="false" tabindex="-1">Contact</button>
       </div>
 
       <section class="tab-panel" id="panel-about" role="tabpanel" aria-labelledby="tab-about" tabindex="0">
-        <h2>About Me</h2>
-        <p>
-          My name is Joseph Donahue. I’m an Extended Reality student interested in
-          virtual reality, augmented reality, and software development.
-        </p>
-        <p>
-          I’m interested in learning how immersive technology can be used for
-          practical, real-world applications.
-        </p>
+        <div class="about">
+          <img class="about-photo" src="picture.jpg" alt="Joseph Donahue" width="1320" height="1753">
+          <div class="about-text">
+            <h2>About Me</h2>
+            <p>
+              My name is Joseph Donahue. I’m an Extended Reality student interested in
+              virtual reality, augmented reality, and software development.
+            </p>
+            <p>
+              I currently work at CleanTrak in Boston, a car wash controller company.
+              I built a contactless tap-to-pay kiosk system that communicates with the
+              CleanTrak API to open gates on approved payments, and I manage the LiDAR
+              data pipeline that powers CleanTrak’s vehicle detection models.
+            </p>
+          </div>
+        </div>
+
+        <div class="tab-files" data-section="about">
+          <h3 class="tab-files-title">Files</h3>
+          <ul class="file-list"></ul>
+          <p class="empty-state">No files added yet.</p>
+        </div>
       </section>
 
       <section class="tab-panel" id="panel-education" role="tabpanel" aria-labelledby="tab-education" tabindex="0" hidden>
         <h2>School Experience</h2>
-        <h3>Husson University</h3>
-        <p>Extended Reality student</p>
-        <p class="placeholder">Add your program details, dates, and relevant coursework.</p>
+        <div class="entry">
+          <h3>Husson University</h3>
+          <p class="entry-subtitle">Extended Reality Student</p>
+          <p class="placeholder">Add your degree, expected graduation date, and any honors or activities.</p>
+        </div>
+
+        <h3 class="subsection-title">Highlighted Classes</h3>
+        <!-- To add a class: copy one <li class="class-card"> block and change the text. -->
+        <ul class="class-list">
+          <li class="class-card">
+            <p class="class-name">Class name</p>
+            <p class="class-description">What you learned or built in this class.</p>
+          </li>
+          <li class="class-card">
+            <p class="class-name">Class name</p>
+            <p class="class-description">What you learned or built in this class.</p>
+          </li>
+          <li class="class-card">
+            <p class="class-name">Class name</p>
+            <p class="class-description">What you learned or built in this class.</p>
+          </li>
+        </ul>
+
+        <div class="tab-files" data-section="education">
+          <h3 class="tab-files-title">Files</h3>
+          <ul class="file-list"></ul>
+          <p class="empty-state">No files added yet.</p>
+        </div>
       </section>
 
       <section class="tab-panel" id="panel-experience" role="tabpanel" aria-labelledby="tab-experience" tabindex="0" hidden>
@@ -54,14 +92,20 @@
           and responsibilities. If you don’t have work experience to list yet,
           you can leave this section as is or remove it.
         </p>
+
+        <div class="tab-files" data-section="experience">
+          <h3 class="tab-files-title">Files</h3>
+          <ul class="file-list"></ul>
+          <p class="empty-state">No files added yet.</p>
+        </div>
       </section>
 
-      <section class="tab-panel" id="panel-files" role="tabpanel" aria-labelledby="tab-files" tabindex="0" hidden>
-        <h2>Files</h2>
-        <p>Documents and project files.</p>
-        <!-- To add a file: put it in the "files" folder, then add an entry to the FILES list in javascript/index.js -->
-        <ul class="file-list" id="file-list"></ul>
-        <p class="empty-state" id="files-empty">No files have been added yet. Check back soon.</p>
+      <section class="tab-panel" id="panel-resume" role="tabpanel" aria-labelledby="tab-resume" tabindex="0" hidden>
+        <h2>Resume</h2>
+        <div class="tab-files" data-section="resume">
+          <ul class="file-list"></ul>
+          <p class="empty-state">My resume will be posted here soon.</p>
+        </div>
       </section>
 
       <section class="tab-panel" id="panel-contact" role="tabpanel" aria-labelledby="tab-contact" tabindex="0" hidden>
