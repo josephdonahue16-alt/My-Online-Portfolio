@@ -47,6 +47,7 @@ for (const container of document.querySelectorAll(".tab-files")) {
   }
 }
 
+const reduceMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 const tabs = Array.from(document.querySelectorAll('[role="tab"]'));
 const panels = Array.from(document.querySelectorAll('[role="tabpanel"]'));
 
@@ -64,6 +65,30 @@ function selectTab(tab, moveFocus = false) {
   if (moveFocus) {
     tab.focus();
   }
+
+  history.replaceState(null, "", `#${tab.dataset.hash}`);
+}
+
+// Tabs are linkable: josephdonahue.net/#work opens the Work tab.
+const tabForHash = (hash) => tabs.find((tab) => `#${tab.dataset.hash}` === hash);
+const tabBar = document.querySelector(".tab-bar");
+
+const initialTab = tabForHash(location.hash);
+if (initialTab) selectTab(initialTab);
+
+window.addEventListener("hashchange", () => {
+  const tab = tabForHash(location.hash);
+  if (tab) selectTab(tab);
+});
+
+for (const link of document.querySelectorAll('a[href^="#"]')) {
+  const tab = tabForHash(link.getAttribute("href"));
+  if (!tab) continue;
+  link.addEventListener("click", (event) => {
+    event.preventDefault();
+    selectTab(tab);
+    tabBar.scrollIntoView({ behavior: reduceMotionQuery.matches ? "auto" : "smooth" });
+  });
 }
 
 for (const [index, tab] of tabs.entries()) {
@@ -153,4 +178,115 @@ for (const tab of document.querySelectorAll('[role="tab"]')) {
   tab.addEventListener("click", () => {
     for (const video of document.querySelectorAll("video")) video.pause();
   });
+}
+
+// Hero: a LiDAR-style point cloud of rolling ground, colored by depth.
+// It sweeps in once on load (skipped when reduced motion is on), then stays still.
+const scanCanvas = document.querySelector(".scan");
+
+if (scanCanvas) {
+  const ctx = scanCanvas.getContext("2d");
+  const ramp = [
+    [74, 125, 255], // near: blue
+    [47, 209, 192], // mid: teal
+    [240, 185, 74], // far: amber
+  ];
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const NEAR = 1.2;
+  const FAR = 13;
+  let points = [];
+
+  const colorAt = (t) => {
+    const scaled = Math.min(t, 0.999) * (ramp.length - 1);
+    const i = Math.floor(scaled);
+    const f = scaled - i;
+    return ramp[i].map((c, k) => Math.round(c + (ramp[i + 1][k] - c) * f));
+  };
+
+  const ground = (x, z) =>
+    0.18 * Math.sin(x * 1.3 + z * 0.6) +
+    0.12 * Math.cos(z * 1.1 - x * 0.4) +
+    1.1 * Math.exp(-((x - 2.4) ** 2 + (z - 5) ** 2) / 2.2);
+
+  function build() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const { width, height } = scanCanvas.getBoundingClientRect();
+    scanCanvas.width = Math.round(width * dpr);
+    scanCanvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const focal = Math.max(width, 700) * 0.55;
+    const horizon = height * 0.04;
+    const camHeight = 2.3;
+    const camX = width < 640 ? -0.6 : -2.2;
+    points = [];
+
+    for (let z = NEAR; z < FAR; z += 0.09 + z * 0.012) {
+      const step = 0.06 + z * 0.014;
+      for (let x = -9; x < 9; x += step) {
+        const jitter = (Math.sin(x * 91.7 + z * 47.3) * 43758.5) % 1;
+        const y = ground(x, z);
+        const sx = width / 2 + ((x - camX) * focal) / z;
+        const sy = horizon + ((camHeight - y) * focal) / z;
+        if (sx < -4 || sx > width + 4 || sy < -4 || sy > height + 4) continue;
+        const t = (z - NEAR) / (FAR - NEAR);
+        points.push({
+          sx: sx + jitter * 1.5,
+          sy,
+          z,
+          r: Math.max(1, 2.4 - t * 1.5),
+          alpha: 1 - t * 0.45,
+          rgb: colorAt(t),
+        });
+      }
+    }
+    points.sort((a, b) => b.z - a.z);
+    return { width, height };
+  }
+
+  function draw(reach) {
+    const { width, height } = scanCanvas.getBoundingClientRect();
+    ctx.clearRect(0, 0, width, height);
+    for (const p of points) {
+      if (p.z > reach) continue;
+      const edge = reach - p.z < 0.35 && reach < FAR;
+      ctx.fillStyle = edge
+        ? "rgba(255, 255, 255, 0.95)"
+        : `rgba(${p.rgb[0]}, ${p.rgb[1]}, ${p.rgb[2]}, ${p.alpha})`;
+      ctx.fillRect(p.sx, p.sy, edge ? p.r * 1.4 : p.r, edge ? p.r * 1.4 : p.r);
+    }
+  }
+
+  build();
+
+  if (reduceMotion) {
+    draw(FAR);
+  } else {
+    const duration = 1600;
+    const start = performance.now();
+    const frame = (now) => {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - (1 - t) ** 3;
+      draw(NEAR + (FAR + 0.4 - NEAR) * eased);
+      if (t < 1) requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }
+
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      build();
+      draw(FAR + 1);
+    }, 120);
+  });
+}
+
+// Sticky tab bar: show the "JD" mark and a solid edge once the hero scrolls away.
+const hero = document.querySelector(".hero");
+if (hero && tabBar && "IntersectionObserver" in window) {
+  new IntersectionObserver(([entry]) => {
+    tabBar.classList.toggle("is-stuck", !entry.isIntersecting);
+  }).observe(hero);
 }
